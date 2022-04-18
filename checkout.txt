@@ -1,3 +1,0 @@
-https://stackoverflow.com/questions/67328139/how-do-i-only-get-images-using-the-praw-module
-
-https://www.reddit.com/r/redditdev/comments/hhp8cw/praw_how_can_i_determine_if_a_submission_is_a/
