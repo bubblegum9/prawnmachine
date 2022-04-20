@@ -3,14 +3,12 @@ from operator import sub
 import praw
 import requests as r
 import os
-from dotenv import load_dotenv
 from time import sleep
 
-load_dotenv()
-webhook          = os.getenv('WEBHOOK')
-in_client_id     = os.getenv('CLIENT_ID')
-in_client_secret = os.getenv('CLIENT_SECRET')
-in_user_agent    = os.getenv('USER_AGENT')
+webhook          = "https://discord.com/api/webhooks/960696215199170642/ajKxVGXVfeTW7f9AfYYcdtSBn5K0xrXqluTHvQaQiMn9s8cv7bpyKRXct751sHte48Ay"
+in_client_id     = "cFR01f6mWygnXN_3i6ZatQ"
+in_client_secret = "ZeHWMXzZFei3YXPOnGRsJenPar0tHw"
+in_user_agent    = "r/cat by u/LexCutter"
 
 reddit = praw.Reddit(
     client_id=in_client_id,
