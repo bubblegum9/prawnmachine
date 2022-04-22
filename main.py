@@ -5,6 +5,8 @@ import requests as r
 import os
 from time import sleep
 
+print(">Starting...")
+
 webhook          = "https://discord.com/api/webhooks/960696215199170642/ajKxVGXVfeTW7f9AfYYcdtSBn5K0xrXqluTHvQaQiMn9s8cv7bpyKRXct751sHte48Ay"
 in_client_id     = "cFR01f6mWygnXN_3i6ZatQ"
 in_client_secret = "ZeHWMXzZFei3YXPOnGRsJenPar0tHw"
@@ -17,7 +19,9 @@ reddit = praw.Reddit(
 )
 
 for submission in reddit.subreddit("cats").stream.submissions(skip_existing=True):
+    print(">Got a Submission")
     if 'i.redd.it' in submission.url:
+        print(">>its a picture")
         payload = {
             "content": None,
             "embeds": [
@@ -32,11 +36,14 @@ for submission in reddit.subreddit("cats").stream.submissions(skip_existing=True
             ]
         }
         response = r.post(webhook, json = payload)
+        print(">>>posted")
         print(response)
     if submission.is_video == True:
+        print(">>its a video")
         url_object = r.head(submission.url, allow_redirects=True)
         payload = {
             "content": str(url_object.url)
         }
         response = r.post(webhook, json = payload)
+        print(">>>posted")
         print(response) 
