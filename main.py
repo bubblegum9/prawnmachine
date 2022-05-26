@@ -12,6 +12,11 @@ in_client_id     = "cFR01f6mWygnXN_3i6ZatQ"
 in_client_secret = "ZeHWMXzZFei3YXPOnGRsJenPar0tHw"
 in_user_agent    = "r/cat by u/LexCutter"
 
+postcount = int(0)
+
+#def limitcount():
+
+
 reddit = praw.Reddit(
     client_id=in_client_id,
     client_secret=in_client_secret,
@@ -20,6 +25,7 @@ reddit = praw.Reddit(
 
 for submission in reddit.subreddit("cats").stream.submissions(skip_existing=True):
     print(">Got a Submission")
+    postcount+=1
     if 'i.redd.it' in submission.url:
         print(">>its a picture")
         payload = {
@@ -46,4 +52,5 @@ for submission in reddit.subreddit("cats").stream.submissions(skip_existing=True
         }
         response = r.post(webhook, json = payload)
         print(">>>posted")
-        print(response) 
+        print(response)
+    sleep(3600)
