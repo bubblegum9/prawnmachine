@@ -12,11 +12,6 @@ in_client_id     = "cFR01f6mWygnXN_3i6ZatQ"
 in_client_secret = "ZeHWMXzZFei3YXPOnGRsJenPar0tHw"
 in_user_agent    = "r/cat by u/LexCutter"
 
-postcount = int(0)
-
-#def limitcount():
-
-
 reddit = praw.Reddit(
     client_id=in_client_id,
     client_secret=in_client_secret,
