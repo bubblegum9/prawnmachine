@@ -16,7 +16,7 @@ proxywebhook     = "https://discord.com/api/webhooks/892342475681853460/eq6jJOvt
 in_client_id     = "cFR01f6mWygnXN_3i6ZatQ"
 in_client_secret = "ZeHWMXzZFei3YXPOnGRsJenPar0tHw"
 in_user_agent    = "r/cat by u/LexCutter"
-delay = 5
+delay = 0
 
 reddit = praw.Reddit(
     client_id=in_client_id,
@@ -179,9 +179,9 @@ def unixporn():
 thread_cats         = threading.Thread(target=cats, daemon=True)
 thread_hardwaregore = threading.Thread(target=hardwaregore, daemon=True)
 thread_softwaregore = threading.Thread(target=softwaregore, daemon=True)
-thread_unixporn     = threading.Thread(target=unixporn, daemon=True)
 
-thread_cats.start()
-thread_hardwaregore.start()
-thread_softwaregore.start()
-thread_unixporn.start()
+if __name__=='__main__':
+    thread_cats.start()
+    thread_hardwaregore.start()
+    thread_softwaregore.start()
+    unixporn()
