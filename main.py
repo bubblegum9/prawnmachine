@@ -1,6 +1,7 @@
+from ast import arguments
 from concurrent.futures import thread
 import json
-from operator import sub
+from operator import index, sub
 from weakref import proxy
 import praw
 import requests as r
@@ -12,17 +13,18 @@ print(">Starting...")
 
 catswebhook      = "https://discord.com/api/webhooks/960696215199170642/ajKxVGXVfeTW7f9AfYYcdtSBn5K0xrXqluTHvQaQiMn9s8cv7bpyKRXct751sHte48Ay"
 proxywebhook     = "https://discord.com/api/webhooks/892342475681853460/eq6jJOvtUxu4JBE3AWg4nkBo0rWTpWDPWSuM-j7tZtYix1PqhxNEE4WgP6s9SQrELoGH"
+proxyunixwebhook = "https://discord.com/api/webhooks/993542686122459186/n4xl7dSajgH9YOtO6VmOQy5HSLtCktDSnSGMLrJHzyDejX1M925FAcFiFe5PwgQ5F1ax"
 in_client_id     = "cFR01f6mWygnXN_3i6ZatQ"
 in_client_secret = "ZeHWMXzZFei3YXPOnGRsJenPar0tHw"
 in_user_agent    = "r/cat by u/LexCutter"
 delay = 0
 
-subreddit_list = [
-    'cats',
-    'softwaregore',
-    'hardwaregore',
-    'unixporn'
-]
+subreddit_list = {
+    'cats':         ['cats', catswebhook, delay],
+    'softwaregore': ['softwaregore', proxywebhook, delay],
+    'hardwaregore': ['hardwaregore', proxywebhook, delay],
+    'unixporn':     ['unixporn', proxyunixwebhook, delay]
+}
 
 reddit = praw.Reddit(
     client_id=in_client_id,
@@ -66,12 +68,16 @@ def reddit_thread(subreddit_name, webhook, delay):
         print('Error in ', subreddit_name, ': ', e)
         pass
 
-#thread_cats = threading.Thread(target=cats, daemon=True)
-thread_list = list()
-for subreddit, index in enumerate(subreddit_list):
-    thread_list.append(threading.Thread(target=reddit_thread(subreddit, ), daemon=True))
-    thread_list[index].start()
-
 if __name__=='__main__':
-    thread_softwaregore.start()
-    unixporn()
+    thread_list = list()
+
+    for index, subreddit in enumerate(subreddit_list):
+        arguments = [
+            subreddit_list[subreddit][0],
+            subreddit_list[subreddit][1],
+            subreddit_list[subreddit][2]
+        ]
+        thread_list.append(
+            threading.Thread(target=reddit_thread, args = arguments, daemon=True)
+        )
+        thread_list[index].start()
