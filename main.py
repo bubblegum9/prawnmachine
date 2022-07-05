@@ -1,9 +1,3 @@
-from ast import arguments
-from concurrent.futures import thread
-import json
-from operator import index, sub
-from weakref import proxy
-from numpy import true_divide
 import praw
 import requests as r
 import os
