@@ -3,6 +3,7 @@ from concurrent.futures import thread
 import json
 from operator import index, sub
 from weakref import proxy
+from numpy import true_divide
 import praw
 import requests as r
 import os
@@ -68,6 +69,10 @@ def reddit_thread(subreddit_name, webhook, delay):
         print('Error in ', subreddit_name, ': ', e)
         pass
 
+def main():
+    while(True):
+        sleep(1)
+
 if __name__=='__main__':
     thread_list = list()
 
@@ -81,3 +86,4 @@ if __name__=='__main__':
             threading.Thread(target=reddit_thread, args = arguments, daemon=True)
         )
         thread_list[index].start()
+    main()
