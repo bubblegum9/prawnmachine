@@ -27,6 +27,9 @@ reddit = praw.Reddit(
     user_agent=in_user_agent
 )
 
+print(">Connected!", "\n", ">Running Service...")
+
+
 def reddit_thread(subreddit_name, webhook, delay):
     try:
         for submission in reddit.subreddit(subreddit_name).stream.submissions(skip_existing=True):
