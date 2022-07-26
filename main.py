@@ -33,8 +33,7 @@ print(">Connected!", "\n", ">Running Service...")
 def reddit_thread(subreddit_name, webhook, delay):
     try:
         for submission in reddit.subreddit(subreddit_name).stream.submissions(skip_existing=True):
-            if(submission.link_flair_text != None):
-                print(submission.link_flair_text)
+            print("FLAIR TEXT", submission.link_flair_text)
             print(subreddit_name," >Got a Submission")
             if 'i.redd.it' in submission.url:
                 print(subreddit_name," >>its a picture")
