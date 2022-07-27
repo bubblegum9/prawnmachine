@@ -37,7 +37,7 @@ universal_unwanted_content = ["#porn", "porn", "nsfw", "NSFW"]
 
 subreddit_list = {
     #'subname':      ['subname', 'webhookname', 'delay', [                             unwanted content                                  ], [ wanted flair for pictures ], [ wanted flair for video ]
-    'cats':          ['cats'   ,  catswebhook ,  delay , ["rescue", "What is this", "what is this", "doctor", "help", "consult", "advice"], [      "Cat picture"        ], [        "Video"         ] ]
+    'cats':          ['cats'   ,  catswebhook ,  delay , ["rescue", "What is this", "what is this", "doctor", "help", "consult", "advice"], [      "Cat Picture"        ], [        "Video"         ] ]
 #    'softwaregore': ['softwaregore', proxywebhook, delay],
 #    'hardwaregore': ['hardwaregore', proxywebhook, delay],
 #    'unixporn':     ['unixporn', proxyunixwebhook, delay]
