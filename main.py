@@ -38,7 +38,7 @@ def reddit_thread(subreddit_name, webhook, delay):
 
             print(subreddit_name, " >Got a Submission")
             print(subreddit_name, " > Checking if its not NSFW")
-            if not submission.over_18 and not any(x in submission.title for x in ["#porn", "porn", "nsfw", "NSFW", "rescue", "What is this", "what is this"]):
+            if not submission.over_18 and not any(x in submission.title for x in ["#porn", "porn", "nsfw", "NSFW", "rescue", "What is this", "what is this", "doctor", "help", "consult", "advice"]):
                 print(subreddit_name, " > NOT NSFW")
                 print(subreddit_name, " > Checking if its a picture")
                 if 'i.redd.it' in submission.url and "Cat Picture" in submission.link_flair_text:
