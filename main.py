@@ -8,12 +8,17 @@
 # https://github.com/crackMaker/redditcatz
 # A (mostly) smart reddit scraper to discord webhook
 
-import praw
-import requests as r
-import os
-from time import sleep
-import threading
-import random
+import sys
+try:
+    import praw
+    import requests as r
+    import os
+    from time import sleep
+    import threading
+    import random
+except Exception as e:
+    print(e, "\n")
+    sys.exit("Error while trying to import required libraries (did you install the dependencies?)")
 
 random.seed()
 
