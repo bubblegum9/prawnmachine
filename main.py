@@ -70,7 +70,7 @@ def reddit_thread(subreddit_name, webhook, delay, unwanted_content, wanted_flair
             #print("FLAIR TEXT", submission.link_flair_text)
             #print("IS OVER 18? ", submission.over_18, type(submission.over_18))
 
-            print(randhex, subreddit_name, " >Got a Submission")
+            print(randhex, subreddit_name, " >Got a Submission \"", submission.title, '\"')
             print(randhex, subreddit_name, "   >Checking if its not NSFW")
             if not submission.over_18 and not any(x in submission.title for x in universal_unwanted_content + unwanted_content):
                 print(randhex, subreddit_name, "   >NOT NSFW")
