@@ -77,7 +77,7 @@ def reddit_thread(subreddit_name, webhook, delay, unwanted_content, wanted_flair
 
             print(randhex, subreddit_name, " >Got a Submission \"", submission.title, '\"')
             print(randhex, subreddit_name, "   >Checking if its not NSFW")
-            if not submission.over_18 and not any(x in submission.title for x in universal_unwanted_content + unwanted_content):
+            if not submission.over_18 and not any(x in submission.title for x in universal_unwanted_content + unwanted_content + list((y.upper() for y in unwanted_content)) + list((z.lower() for z in unwanted_content))):
                 print(randhex, subreddit_name, "   >NOT NSFW")
                 print(randhex, subreddit_name, " >Checking if its a picture")
                 if 'i.redd.it' in submission.url and any(x in submission.link_flair_text for x in wanted_flair_picture):
