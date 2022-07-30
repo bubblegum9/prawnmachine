@@ -10,6 +10,7 @@
 
 import sys
 try:
+    import functools
     import praw
     import requests as r
     import os
@@ -19,6 +20,8 @@ try:
 except Exception as e:
     print(e, "\n")
     sys.exit("Error while trying to import required libraries (did you install the dependencies?)")
+
+print = functools.partial(print, flush=True)
 
 random.seed()
 
