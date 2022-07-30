@@ -156,6 +156,8 @@ def reddit_thread(subname, webhook, delay, unwanted_content, wanted_flair_pictur
                 print("CACHE SIZE: ", len(cache))
                 print(seperatorC)
                 sleep(delay)
+            else:
+                print(randhex, subnameC, " >DUPLICATE")
     except Exception as e:
         print('Error in ', subnameC, ': ', e)
         pass
