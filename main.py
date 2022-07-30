@@ -134,6 +134,7 @@ def reddit_thread(subreddit_name, webhook, delay, unwanted_content, wanted_flair
                 if len(cache)>30:
                     cache.pop(0)
                 print("CACHE SIZE: ", len(cache))
+                print("#################################################")
                 sleep(delay)
     except Exception as e:
         print('Error in ', subreddit_name, ': ', e)
