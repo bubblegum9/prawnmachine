@@ -121,10 +121,9 @@ def reddit_thread(subreddit_name, webhook, delay, unwanted_content, wanted_flair
                             print(randhex, subreddit_name, "   Did submission.is_video evaluate to True? ", submission.is_video)
                             print(randhex, subreddit_name, "   Was wanted flair in submission.link_flair_text? ", any(x in submission.link_flair_text for x in wanted_flair_video))
                     print(randhex, subreddit_name, " >DONE\n")
-                if len(cache)>10:
+                if len(cache)>30:
                     cache.pop(0)
                 sleep(delay)
-                
     except Exception as e:
         print('Error in ', subreddit_name, ': ', e)
         pass
