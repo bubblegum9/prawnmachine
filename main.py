@@ -94,8 +94,8 @@ def reddit_thread(subname, webhook, delay, unwanted_content, wanted_flair_pictur
     #postedC is just text that pulses to notify of a successfull post
 
     print(">Started a service for subreddit: ", subnameC)
-    try:
-        for submission in reddit.subreddit(subname).stream.submissions(skip_existing=True):
+    for submission in reddit.subreddit(subname).stream.submissions(skip_existing=True):
+        try:
             if submission.url not in cache:
                 cache.append(submission.url)
                 randhex = hex(random.randint(0, 10000))
@@ -158,9 +158,9 @@ def reddit_thread(subname, webhook, delay, unwanted_content, wanted_flair_pictur
                 sleep(delay)
             else:
                 print(randhex, subnameC, " >DUPLICATE")
-    except Exception as e:
-        print('Error in ', subnameC, ': ', e)
-        pass
+        except Exception as e:
+            print('Error in ', subnameC, ': ', e)
+            pass
 
 def main():
     while(True):
