@@ -35,8 +35,9 @@ in_client_secret = "ZeHWMXzZFei3YXPOnGRsJenPar0tHw"
 in_user_agent    = "r/cat by u/LexCutter"
 delay = 0
 
-universal_unwanted_content = ["#porn", "porn", "nsfw", "NSFW"]
 cache = list()
+
+universal_unwanted_content = ["#porn", "porn", "nsfw", "NSFW"]
 # universal_unwanted_content is a list of keywords that may appear in a title of a post we dont want
 
 subreddit_list = {
@@ -84,7 +85,7 @@ def reddit_thread(subreddit_name, webhook, delay, unwanted_content, wanted_flair
                 print(randhex, subreddit_name, " >Got a Submission \"", submission.title, '\"')
                 print(randhex, subreddit_name, "   >Checking if its not NSFW")
                 if not submission.over_18 and not any(x in submission.title for x in universal_unwanted_content + unwanted_content + list((y.upper() for y in unwanted_content)) + list((z.lower() for z in unwanted_content))):
-                    print(randhex, subreddit_name, "   >NOT NSFW")
+                    print(randhex, subreddit_name, "    >NOT NSFW, doesnt have unwanted content")
                     print(randhex, subreddit_name, " >Checking if its a picture")
                     if 'i.redd.it' in submission.url and any(x in submission.link_flair_text for x in wanted_flair_picture):
                         print(randhex, subreddit_name,"   >>its a picture")
@@ -124,6 +125,12 @@ def reddit_thread(subreddit_name, webhook, delay, unwanted_content, wanted_flair
                             print(randhex, subreddit_name, "   Did submission.is_video evaluate to True? ", submission.is_video)
                             print(randhex, subreddit_name, "   Was wanted flair in submission.link_flair_text? ", any(x in submission.link_flair_text for x in wanted_flair_video))
                     print(randhex, subreddit_name, " >DONE\n")
+                else:
+                    if submission.over_18: 
+                        print("   >Submission marked as OVER 18")
+                    if any(x in submission.title for x in universal_unwanted_content + unwanted_content + list((y.upper() for y in unwanted_content)) + list((z.lower() for z in unwanted_content))):
+                        print("   >Unwanted content was in submission title")
+                
                 if len(cache)>30:
                     cache.pop(0)
                 print("CACHE SIZE: ", len(cache))
