@@ -30,7 +30,7 @@ print(">Starting...")
 
 catswebhook      = "https://discord.com/api/webhooks/960696215199170642/ajKxVGXVfeTW7f9AfYYcdtSBn5K0xrXqluTHvQaQiMn9s8cv7bpyKRXct751sHte48Ay"
 proxywebhook     = "https://discord.com/api/webhooks/892342475681853460/eq6jJOvtUxu4JBE3AWg4nkBo0rWTpWDPWSuM-j7tZtYix1PqhxNEE4WgP6s9SQrELoGH"
-proxyunixwebhook = "https://discord.com/api/webhooks/993542686122459186/n4xl7dSajgH9YOtO6VmOQy5HSLtCktDSnSGMLrJHzyDejX1M925FAcFiFe5PwgQ5F1ax"
+proxyunixwebhook = "https://discord.com/api/webhooks/1002975870333501540/UrNjNuJjrZw_dDKnDHCHjDIai_67lqlaSatFBPVeWQWoS1X1GwNLadSQOdXJq46k3XYm"
 in_client_id     = "cFR01f6mWygnXN_3i6ZatQ"
 in_client_secret = "ZeHWMXzZFei3YXPOnGRsJenPar0tHw"
 in_user_agent    = "r/cat by u/LexCutter"
@@ -41,20 +41,19 @@ termcolor_colors= ['grey','red','green','yellow','blue','magenta','cyan','white'
 # see https://pypi.org/project/termcolor/
 # scroll under Text Properties
 
-cache = list()
-# list of submission url's, used to identifiy duplicates, and not send them if found
+cache_size_cap_universal=30
+# cache is a list of submission url's, used to identifiy duplicates, and not send them if found
 # capped at a sertain size, to prevent extensive increase in memory usage
-cache_size_cap = 30
 
 universal_unwanted_content = ["#porn", "porn", "nsfw", "NSFW"]
 # universal_unwanted_content is a list of keywords that may appear in a title of a post we dont want
 
 subreddit_list = {
     #'subname':      ['subname', 'webhookname', 'delay', [                             unwanted content                                  ], [ wanted flair for pictures ], [ wanted flair for video ]
-    'cats':          ['cats'   ,  catswebhook ,  delay , ["rescue", "What is this", "what is this", "doctor", "help", "consult", "advice"], [      "Cat Picture"        ], [        "Video"         ] ]
+    'cats':          ['cats'   ,  catswebhook ,  delay , ["rescue", "What is this", "what is this", "doctor", "help", "consult", "advice"], [      "Cat Picture"        ], [        "Video"         ] ],
 #    'softwaregore': ['softwaregore', proxywebhook, delay],
 #    'hardwaregore': ['hardwaregore', proxywebhook, delay],
-#    'unixporn':     ['unixporn', proxyunixwebhook, delay]
+    'unixporn':     ['unixporn', proxyunixwebhook, delay, [], ['Screenshot'], []]
 }
 
 # Below are explanations on some keys in the subreddit_list dictionary that may be missunderstood 
@@ -82,10 +81,17 @@ print(">Connected!", "\n>Running Service...")
 
 
 def reddit_thread(subname, webhook, delay, unwanted_content, wanted_flair_picture, wanted_flair_video):
-    subnameC = colored(" "+subname+" ", random.choice(termcolor_colors), attrs=['reverse'])
+    cache = list()
+    # list of submission url's, used to identifiy duplicates, and not send them if found
+    # capped at a sertain size, to prevent extensive increase in memory usage
+    cache_size_cap = cache_size_cap_universal
+
+    subnameC = colored(" "+subname+" ", random.choice(termcolor_colors), attrs=['reverse', 'bold'])
     #subnameC is a colored version of the subreddit name ( this is only for looks :D )
-    seperator = colored("#################################################", 'grey', attrs=['reverse'])
-    #seperator is just text used to make the program's text output more readable
+    seperatorC = colored("#################################################", 'grey', attrs=['bold'])
+    #seperatorC is just text used to make the program's text output more readable (seperates submissions)
+    postedC = colored("   >>>posted", 'green', attrs=['reverse', 'bold', 'blink'])
+    #postedC is just text that pulses to notify of a successfull post
 
     print(">Started a service for subreddit: ", subnameC)
     try:
@@ -117,7 +123,7 @@ def reddit_thread(subname, webhook, delay, unwanted_content, wanted_flair_pictur
                             ]
                         }
                         response = r.post(webhook, json = payload)
-                        print(randhex, subnameC,"   >>>posted")
+                        print(randhex, subnameC, postedC)
                         print(randhex, subnameC,"   ", response)
                     else:
                         print(randhex, subnameC, "   >NOT a picture")
@@ -132,7 +138,7 @@ def reddit_thread(subname, webhook, delay, unwanted_content, wanted_flair_pictur
                                 "content": str(url_object.url)
                             }
                             response = r.post(webhook, json = payload)
-                            print(randhex, subnameC,"   >>>posted")
+                            print(randhex, subnameC, postedC)
                             print(randhex, response)
                         else:
                             print(randhex, subnameC, "   >NOT a video")
@@ -147,8 +153,8 @@ def reddit_thread(subname, webhook, delay, unwanted_content, wanted_flair_pictur
                 
                 if len(cache)>cache_size_cap:
                     cache.pop(0)
-                print("CACHE SIZE: ", len(cache), "\n")
-                print(seperator)
+                print("CACHE SIZE: ", len(cache))
+                print(seperatorC)
                 sleep(delay)
     except Exception as e:
         print('Error in ', subnameC, ': ', e)
