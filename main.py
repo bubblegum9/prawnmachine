@@ -33,6 +33,7 @@ in_user_agent    = "r/cat by u/LexCutter"
 delay = 0
 
 universal_unwanted_content = ["#porn", "porn", "nsfw", "NSFW"]
+cache = list()
 # universal_unwanted_content is a list of keywords that may appear in a title of a post we dont want
 
 subreddit_list = {
@@ -71,56 +72,59 @@ def reddit_thread(subreddit_name, webhook, delay, unwanted_content, wanted_flair
     print(">Started a service for subreddit: ", subreddit_name)
     try:
         for submission in reddit.subreddit(subreddit_name).stream.submissions(skip_existing=True):
-            randhex = hex(random.randint(0, 10000))
-            #print("FLAIR TEXT", submission.link_flair_text)
-            #print("IS OVER 18? ", submission.over_18, type(submission.over_18))
+            if submission.url not in cache:
+                cache.append(submission.url)
+                randhex = hex(random.randint(0, 10000))
+                #print("FLAIR TEXT", submission.link_flair_text)
+                #print("IS OVER 18? ", submission.over_18, type(submission.over_18))
 
-            print(randhex, subreddit_name, " >Got a Submission \"", submission.title, '\"')
-            print(randhex, subreddit_name, "   >Checking if its not NSFW")
-            if not submission.over_18 and not any(x in submission.title for x in universal_unwanted_content + unwanted_content + list((y.upper() for y in unwanted_content)) + list((z.lower() for z in unwanted_content))):
-                print(randhex, subreddit_name, "   >NOT NSFW")
-                print(randhex, subreddit_name, " >Checking if its a picture")
-                if 'i.redd.it' in submission.url and any(x in submission.link_flair_text for x in wanted_flair_picture):
-                    print(randhex, subreddit_name,"   >>its a picture")
-                    payload = {
-                        "content": None,
-                        "embeds": [
-                            {
-                                "title": str(submission.title),
-                                "description": None,
-                                "color":356357,
-                                "image":{
-                                    "url":str(submission.url)
-                                }
-                            }
-                        ]
-                    }
-                    response = r.post(webhook, json = payload)
-                    print(randhex, subreddit_name,"   >>>posted")
-                    print(randhex, subreddit_name,"   ", response)
-                else:
-                    print(randhex, subreddit_name, "   >NOT a picture")
-                    print(randhex, subreddit_name, "   Was 'i.redd.it' in submission.url? ", 'i.redd.it' in submission.url)
-                    print(randhex, subreddit_name, "   Was wanted flair in submission.link_flair_text? ", any(x in submission.link_flair_text for x in wanted_flair_picture))
-
-                    print(randhex, subreddit_name, " >Checking if its a video")
-                    if submission.is_video and any(x in submission.link_flair_text for x in wanted_flair_video):
-                        print(randhex, subreddit_name,"   >>its a video")
-                        url_object = r.head(submission.url, allow_redirects=True)
+                print(randhex, subreddit_name, " >Got a Submission \"", submission.title, '\"')
+                print(randhex, subreddit_name, "   >Checking if its not NSFW")
+                if not submission.over_18 and not any(x in submission.title for x in universal_unwanted_content + unwanted_content + list((y.upper() for y in unwanted_content)) + list((z.lower() for z in unwanted_content))):
+                    print(randhex, subreddit_name, "   >NOT NSFW")
+                    print(randhex, subreddit_name, " >Checking if its a picture")
+                    if 'i.redd.it' in submission.url and any(x in submission.link_flair_text for x in wanted_flair_picture):
+                        print(randhex, subreddit_name,"   >>its a picture")
                         payload = {
-                            "content": str(url_object.url)
+                            "content": None,
+                            "embeds": [
+                                {
+                                    "title": str(submission.title),
+                                    "description": None,
+                                    "color":356357,
+                                    "image":{
+                                        "url":str(submission.url)
+                                    }
+                                }
+                            ]
                         }
                         response = r.post(webhook, json = payload)
                         print(randhex, subreddit_name,"   >>>posted")
-                        print(randhex, response)
+                        print(randhex, subreddit_name,"   ", response)
                     else:
-                        print(randhex, subreddit_name, "   >NOT a video")
-                        print(randhex, subreddit_name, "   Did submission.is_video evaluate to True? ", submission.is_video)
-                        print(randhex, subreddit_name, "   Was wanted flair in submission.link_flair_text? ", any(x in submission.link_flair_text for x in wanted_flair_video))
+                        print(randhex, subreddit_name, "   >NOT a picture")
+                        print(randhex, subreddit_name, "   Was 'i.redd.it' in submission.url? ", 'i.redd.it' in submission.url)
+                        print(randhex, subreddit_name, "   Was wanted flair in submission.link_flair_text? ", any(x in submission.link_flair_text for x in wanted_flair_picture))
 
-                print(randhex, subreddit_name, " >DONE\n")
+                        print(randhex, subreddit_name, " >Checking if its a video")
+                        if submission.is_video and any(x in submission.link_flair_text for x in wanted_flair_video):
+                            print(randhex, subreddit_name,"   >>its a video")
+                            url_object = r.head(submission.url, allow_redirects=True)
+                            payload = {
+                                "content": str(url_object.url)
+                            }
+                            response = r.post(webhook, json = payload)
+                            print(randhex, subreddit_name,"   >>>posted")
+                            print(randhex, response)
+                        else:
+                            print(randhex, subreddit_name, "   >NOT a video")
+                            print(randhex, subreddit_name, "   Did submission.is_video evaluate to True? ", submission.is_video)
+                            print(randhex, subreddit_name, "   Was wanted flair in submission.link_flair_text? ", any(x in submission.link_flair_text for x in wanted_flair_video))
+                    print(randhex, subreddit_name, " >DONE\n")
+                if len(cache)>10:
+                    cache.pop(0)
+                sleep(delay)
                 
-            sleep(delay)
     except Exception as e:
         print('Error in ', subreddit_name, ': ', e)
         pass
