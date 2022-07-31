@@ -148,7 +148,7 @@ def reddit_thread(subname, webhook, delay, unwanted_content, wanted_flair_pictur
                 else:
                     if submission.over_18: 
                         print(randhex, subnameC, "   >Submission marked as OVER 18")
-                    if any(x in submission.title for x in universal_unwanted_content + unwanted_content + list((y.upper() for y in unwanted_content)) + list((z.lower() for z in unwanted_content))):
+                    if any(x.lower() in str(submission.title).lower() + str(submission.selftext).lower() for x in universal_unwanted_content + unwanted_content):
                         print(randhex, subnameC, "   >Unwanted content was in submission title")
                 
                 if len(cache)>cache_size_cap:
