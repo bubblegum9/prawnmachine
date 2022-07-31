@@ -45,12 +45,12 @@ cache_size_cap_universal=30
 # cache is a list of submission url's, used to identifiy duplicates, and not send them if found
 # capped at a sertain size, to prevent extensive increase in memory usage
 
-universal_unwanted_content = ["#porn", "porn", "nsfw", "NSFW"]
+universal_unwanted_content = ["#porn", "porn", "nsfw"]
 # universal_unwanted_content is a list of keywords that may appear in a title of a post we dont want
 
 subreddit_list = {
-    #'subname':      ['subname', 'webhookname', 'delay', [                             unwanted content                                  ], [ wanted flair for pictures ], [ wanted flair for video ]
-    'cats':          ['cats'   ,  catswebhook ,  delay , ["rescue", "What is this", "what is this", "doctor", "help", "consult", "advice"], [      "Cat Picture"        ], [        "Video"         ] ],
+    #'subname':      ['subname', 'webhookname',  delay, [                             unwanted content                                      ], [ wanted flair for pictures ], [ wanted flair for video ]
+    'cats':          ['cats'   ,  catswebhook ,  delay, ["rescue", "what is this", "doctor", "help", "consult", "advice", "gender", "please"], [      "Cat Picture"        ], [        "Video"         ] ],
 #    'softwaregore': ['softwaregore', proxywebhook, delay],
 #    'hardwaregore': ['hardwaregore', proxywebhook, delay],
     'unixporn':     ['unixporn', proxyunixwebhook, delay, [], ['Screenshot'], []]
@@ -104,7 +104,7 @@ def reddit_thread(subname, webhook, delay, unwanted_content, wanted_flair_pictur
 
                 print(randhex, subnameC, " >Got a Submission \"", submission.title, '\"')
                 print(randhex, subnameC, "   >Checking if its not NSFW")
-                if not submission.over_18 and not any(x in submission.title for x in universal_unwanted_content + unwanted_content + list((y.upper() for y in unwanted_content)) + list((z.lower() for z in unwanted_content))):
+                if not submission.over_18 and not any(x in str(submission.title).lower() + str(submission.selftext).lower() for x in universal_unwanted_content + unwanted_content):
                     print(randhex, subnameC, "    >NOT NSFW, doesnt have unwanted content")
                     print(randhex, subnameC, " >Checking if its a picture")
                     if 'i.redd.it' in submission.url and any(x in submission.link_flair_text for x in wanted_flair_picture):
