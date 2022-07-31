@@ -49,8 +49,8 @@ universal_unwanted_content = ["#porn", "porn", "nsfw"]
 # universal_unwanted_content is a list of keywords that may appear in a title of a post we dont want
 
 subreddit_list = {
-    #'subname':      ['subname', 'webhookname',  delay, [                             unwanted content                                      ], [ wanted flair for pictures ], [ wanted flair for video ]
-    'cats':          ['cats'   ,  catswebhook ,  delay, ["rescue", "what is this", "doctor", "help", "consult", "advice", "gender", "please"], [      "Cat Picture"        ], [        "Video"         ] ],
+    #'subname':      ['subname', 'webhookname',  delay, [                             unwanted content                                               ], [ wanted flair for pictures ], [ wanted flair for video ]
+    'cats':          ['cats'   ,  catswebhook ,  delay, ["rescue", "what is this", "doctor", "help", "consult", "advice", "gender", "please", "wound"], [      "Cat Picture"        ], [        "Video"         ] ],
 #    'softwaregore': ['softwaregore', proxywebhook, delay],
 #    'hardwaregore': ['hardwaregore', proxywebhook, delay],
     'unixporn':     ['unixporn', proxyunixwebhook, delay, [], ['Screenshot'], []]
