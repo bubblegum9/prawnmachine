@@ -9,6 +9,7 @@
 # A (mostly) smart reddit scraper to discord webhook
 
 import sys
+from subreddits import subreddit_list, universal_unwanted_content
 try:
     import functools
     from termcolor import colored
@@ -19,7 +20,7 @@ try:
     import threading
     import random
 except Exception as e:
-    print(e, "\n")
+    print(e)
     sys.exit("Error while trying to import required libraries (did you install the dependencies?)")
 
 print = functools.partial(print, flush=True)
@@ -28,13 +29,9 @@ random.seed()
 
 print(">Starting...")
 
-catswebhook      = "https://discord.com/api/webhooks/960696215199170642/ajKxVGXVfeTW7f9AfYYcdtSBn5K0xrXqluTHvQaQiMn9s8cv7bpyKRXct751sHte48Ay"
-proxywebhook     = "https://discord.com/api/webhooks/892342475681853460/eq6jJOvtUxu4JBE3AWg4nkBo0rWTpWDPWSuM-j7tZtYix1PqhxNEE4WgP6s9SQrELoGH"
-proxyunixwebhook = "https://discord.com/api/webhooks/1002975870333501540/UrNjNuJjrZw_dDKnDHCHjDIai_67lqlaSatFBPVeWQWoS1X1GwNLadSQOdXJq46k3XYm"
 in_client_id     = "cFR01f6mWygnXN_3i6ZatQ"
 in_client_secret = "ZeHWMXzZFei3YXPOnGRsJenPar0tHw"
 in_user_agent    = "r/cat by u/LexCutter"
-delay = 0
 
 termcolor_colors= ['grey','red','green','yellow','blue','magenta','cyan','white']
 # colors that termcolor can use to paint text
@@ -47,30 +44,6 @@ cache_size_cap_universal=30
 
 universal_unwanted_content = ["#porn", "porn", "nsfw"]
 # universal_unwanted_content is a list of keywords that may appear in a title of a post we dont want
-
-subreddit_list = {
-    #'subname':      ['subname', 'webhookname',  delay, [unwanted content], [ wanted flair for pictures ], [ wanted flair for video ]
-
-    'cats':          ['cats'   ,  catswebhook ,  delay, ["rescue", "what is this", "doctor", "help", "consult", "advice", "gender", "please", "wound", "sick", "infection", "suffering", "pregnant"], ["Cat Picture"], ["Video"]],
-#    'softwaregore': ['softwaregore', proxywebhook, delay],
-#    'hardwaregore': ['hardwaregore', proxywebhook, delay],
-    'unixporn':     ['unixporn', proxyunixwebhook, delay, [], ['Screenshot'], []]
-}
-
-# Below are explanations on some keys in the subreddit_list dictionary that may be missunderstood 
-
-# Unwanted content are keywords that could appear in the titles of posts that we arent looking for.
-# For example, in the cats subreddit there are posts of cute cats which we want,
-# and there are posts of people looking for advice on something cat related which we dont want
-# but these undesirable posts arent always marked with an advice flair or similar, 
-# rather they are marked with the 'Cat picture' flair, which we are looking for,
-# which then doesnt get stopped by the system, and in the end we get a picture of cat flee's.
-# To prevent this, we look for sertain keywords that 
-# people looking for advice (in this example) might use in the title.
-
-# Wanted flair for pictures are flair keywords that we want a post with a picture to have
-
-# Wanted flair for video are flair keywords that we want a post with a video to have
 
 reddit = praw.Reddit(
     client_id=in_client_id,
