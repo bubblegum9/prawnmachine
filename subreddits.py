@@ -26,12 +26,21 @@ subreddit_list = {
     #   [wanted flair for pictures],
     #   [wanted flair for video]
     #]
+    'cats':[
+        'cats',
+        'https://discord.com/api/webhooks/960696215199170642/ajKxVGXVfeTW7f9AfYYcdtSBn5K0xrXqluTHvQaQiMn9s8cv7bpyKRXct751sHte48Ay',
+        0,
+        ["#porn", "porn", "nsfw"],
+        ['Cat Picture', 'Humor'],
+        ['Workflow']
+    ],
     'unixporn':[
         'unixporn',
-        'https://discord.com/api/webhooks/1002975870333501540/UrNjNuJjrZw_dDKnDHCHjDIai_67lqlaSatFBPVeWQWoS1X1GwNLadSQOdXJq46k3XYm',
-        1,
-        [universal_unwanted_content],
-        ['Screenshot', 'Hardware'],
-        ['Workflow']
+        'https://discord.com/api/webhooks/1111023590322749540/F7VDon72VY3shNnRe1GsM1LkAD2w289cvXGYHlT3uiwoqjjGPVWHlTHuzz1gpqTUzY45',
+        0,
+        ['#porn', "nsfw"],
+        ['Screenshot', 'Material', 'Workflow'],
+        []
     ]
 }
+
